@@ -1,5 +1,5 @@
 """
-Główna aplikacja FastAPI.
+Main FastAPI application
 """
 
 from contextlib import asynccontextmanager
@@ -9,6 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import settings
 from app.db.database import close_db, init_db
+from app.api.health import router as health_router
 
 
 @asynccontextmanager
@@ -44,6 +45,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# ROUTERS
+app.include_router(health_router, prefix="/health")
 
 
 @app.get("/")
